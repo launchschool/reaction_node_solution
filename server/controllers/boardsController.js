@@ -25,5 +25,19 @@ const createBoard = (req, res, next) => {
   }
 };
 
+const getBoard = (req, res) => {
+  const boardId = req.params.id;
+  Board.findOne({ _id: boardId })
+    .populate({ path: "lists", populate: { path: "cards" } })
+    .then(board => {
+      if (!board) {
+        throw new Error("Board doesn't exist");
+      }
+      res.json(board);
+    })
+    .catch(err => next(err));
+};
+
 exports.getBoards = getBoards;
 exports.createBoard = createBoard;
+exports.getBoard = getBoard;
