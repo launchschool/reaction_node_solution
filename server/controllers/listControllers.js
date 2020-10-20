@@ -1,6 +1,6 @@
 const List = require("../models/list");
 
-exports.findList = (req, res, next) => {
+const findList = (req, res, next) => {
   const listId = req.body.listId || req.params.id;
   List.findById(listId)
     .populate("board")
@@ -50,9 +50,18 @@ const sendList = (req, res) => {
   List.find({ _id: list._id }, 'title position boardId createdAt updatedAt').then(list => {
       res.json({ list });
   })
-
 };
 
+const addCardToList = (req, res, next) => {
+  const card = req.card;
+  const listId = req.list._id;
+  List.findByIdAndUpdate(listId, {
+    $addToSet: { cards: card._id }
+  }).then(() => next());
+};
+
+exports.findList = findList;
 exports.updateList = updateList;
 exports.createList = createList;
 exports.sendList = sendList;
+exports.addCardToList = addCardToList;
