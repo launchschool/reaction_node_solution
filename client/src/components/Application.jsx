@@ -2,6 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import TopNav from "./shared/TopNav";
 import BoardsDashboardContainer from "./dashboard/BoardsDashboardContainer";
+import Board from "./board/Board";
 import UISection from "./ui/UISection";
 import AllBoards from "./ui/AllBoards";
 import CardArchived from "./ui/CardArchived";
@@ -19,6 +20,7 @@ const Application = () => {
     <div>
       <TopNav />
       <Route path="/" exact component={BoardsDashboardContainer} />
+      <Route path="/boards/:id" component={Board} />
       <Route path="/ui" exact component={UISection} />
       <Route path="/ui/allBoards" component={AllBoards} />
       <Route path="/ui/cardArchived" component={CardArchived} />

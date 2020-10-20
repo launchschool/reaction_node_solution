@@ -32,7 +32,14 @@ const apiClient = {
       .then(unwrapData)
       .then(callback)
       .catch(logError);
-  }
+  },
+  getBoard: function(id, callback) {
+    return axios
+      .get(routes.getBoardUrl(id))
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
 };
 
 export default apiClient;
