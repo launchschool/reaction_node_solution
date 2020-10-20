@@ -1,13 +1,29 @@
 const express = require ('express');
 const router = express.Router();
-const boardsController = require("../controllers/boardsController");
+const boardControllers = require("../controllers/boardControllers");
+const listControllers = require("../controllers/listControllers");
 const {check} = require("express-validator");
 
 
-router.get('/boards',boardsController.getBoards );
+router.get('/boards',boardControllers.getBoards);
 
-router.post('/boards', check("title").not().isEmpty(), boardsController.createBoard );
+router.post('/boards', check("title").not().isEmpty(), boardControllers.createBoard);
 
-router.get('/boards/:id', boardsController.getBoard);
+router.get('/boards/:id', boardControllers.getBoard);
+
+router.post(
+  "/lists",
+  boardControllers.findBoard,
+  listControllers.createList,
+  boardControllers.addListToBoard,
+  listControllers.sendList
+);
+
+router.put(
+  "/lists/:id",
+  listControllers.findList,
+  listControllers.updateList,
+  listControllers.sendList
+);
 
 module.exports = router;
