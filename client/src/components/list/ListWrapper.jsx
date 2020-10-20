@@ -1,5 +1,6 @@
 import React from "react";
 import ListCards from "./ListCards";
+import EditableListTitle from "./EditableListTitle";
 
 const ListWrapper = (props) => {
   return (
@@ -8,7 +9,7 @@ const ListWrapper = (props) => {
         <div className="list">
           <a className="more-icon sm-icon" href=""></a>
           <div>
-            <p className="list-title">{props.title}</p>
+            <EditableListTitle listId={props._id} title={props.title} />
           </div>
           <div className="add-dropdown add-top">
             <div className="card"></div>
