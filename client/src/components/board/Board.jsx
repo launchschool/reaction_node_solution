@@ -3,10 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import BoardHeader from "./BoardHeader";
 import ListContainer from "./ListContainer";
 import * as actions from "../../actions/BoardActions";
+import { findBoardId } from "../../utils/helpers";
 import { getBoardById } from "../../selectors/boardSelectors";
 
 const Board = (props) => {
-  const boardId = props.match.params.id;
+  const state = useSelector((state) => state);
+  const { url } = props.match;
+  const id = props.match.params.id;
+  const boardId = findBoardId(url, id, state);
   const stateBoards = useSelector((state) => state.boards);
   const board = getBoardById(stateBoards, boardId);
 

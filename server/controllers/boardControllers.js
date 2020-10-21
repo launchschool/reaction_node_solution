@@ -28,7 +28,7 @@ const createBoard = (req, res, next) => {
   }
 };
 
-const getBoard = (req, res) => {
+const getBoard = (req, res, next) => {
   const boardId = req.params.id;
   Board.findById(boardId)
     .populate({ path: "lists", populate: { path: "cards" } })
