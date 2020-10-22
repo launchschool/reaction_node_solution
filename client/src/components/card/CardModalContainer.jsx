@@ -6,6 +6,8 @@ import * as actions from "../../actions/CardActions";
 import LabelsForm from "./LabelsForm";
 import Popover from "../shared/Popover";
 import DueDateForm from "./DueDateForm";
+import * as commentSelectors from "../../selectors/commentSelectors";
+import * as commentActions from "../../actions/CommentActions";
 
 const CardModalContainer = (props) => {
   const reducer = (prevState, updatedProperty) => ({
@@ -31,6 +33,16 @@ const CardModalContainer = (props) => {
 
   const list = useSelector((state) =>
     state.lists.find((list) => list._id === card.listId)
+  );
+
+
+  const stateComments = useSelector((state) => state.comments);
+  // const stateActions = useSelector((state) => state.actions);
+  const comments = commentSelectors.cardCommentsAndActions(
+    stateComments,
+    [],
+    props.match.params.id,
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
   const dispatch = useDispatch();
@@ -68,6 +80,13 @@ const CardModalContainer = (props) => {
       });
     }
   }, []);
+
+  const createComment = useCallback(
+    (cardId, comment, callback) => {
+      dispatch(commentActions.createComment(cardId, comment, callback));
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     updateCardInState(card);
@@ -224,7 +243,9 @@ const CardModalContainer = (props) => {
           onTitleBlur={handleTitleBlur}
           onTitleChange={handleTitleChange}
           onShowPopover={handleShowPopover}
-          onUpdateCard = {updateCard}
+          onUpdateCard={updateCard}
+          comments={comments}
+          onCreateComment={createComment}
         />
         <Popover {...state.popover}>{popoverChildren()}</Popover>
       </>

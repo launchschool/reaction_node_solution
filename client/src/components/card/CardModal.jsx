@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { dueClass, formatDueDate } from "../../utils/helpers";
 import CardDescription from "./CardDescription";
+import NewCommentForm from "./NewCommentForm";
 
 const CardModal = (props) => {
   const labels = (card) =>
@@ -17,6 +18,38 @@ const CardModal = (props) => {
     ));
   const dueDateClass = dueClass(props.card);
   const formattedDueDate = formatDueDate(props.card.dueDate);
+  let comments;
+  if (props.card) {
+    comments = props.comments.map((comment) =>
+      comment.isAction ? (
+        <li key={`action_${comment._id}`}>
+          <div className="member-container">
+            <div className="card-member small-size">VR</div>
+          </div>
+          <p>
+            <span className="member-name">Victor Reyes</span>{" "}
+            {comment.description}{" "}
+            <small>{moment(comment.createdAt).fromNow()}</small>
+          </p>
+        </li>
+      ) : (
+        <li key={`comment_${comment._id}`}>
+          <div className="member-container">
+            <div className="card-member">TP</div>
+          </div>
+          <h3>Taylor Peat</h3>
+          <div className="comment static-comment">
+            <span>{comment.text}</span>
+          </div>
+          <small>
+            {moment(comment.createdAt).fromNow()} -{" "}
+            <span className="link">Edit</span> -{" "}
+            <span className="link">Delete</span>
+          </small>
+        </li>
+      )
+    );
+  }
 
   return (
     <div id="modal-container">
@@ -95,72 +128,18 @@ const CardModal = (props) => {
               />
             </li>
             <li className="comment-section">
-            <h2 className="comment-icon icon">Add Comment</h2>
-              <div>
-                <div className="member-container">
-                  <div className="card-member">TP</div>
-                </div>
-                <div className="comment">
-                  <label>
-                    <textarea
-                      required=""
-                      rows="1"
-                      placeholder="Write a comment..."
-                    ></textarea>
-                    <div>
-                      <a className="light-button card-icon sm-icon"></a>
-                      <a className="light-button smiley-icon sm-icon"></a>
-                      <a className="light-button email-icon sm-icon"></a>
-                      <a className="light-button attachment-icon sm-icon"></a>
-                    </div>
-                    <div>
-                      <input
-                        type="submit"
-                        className="button"
-                      />
-                    </div>
-                  </label>
-                </div>
-              </div>
+              <NewCommentForm
+                cardId={props.card._id}
+                onSubmit={props.onCreateComment}
+              />
             </li>
             <li className="activity-section">
               <h2 className="activity-icon icon">Activity</h2>
               <ul className="horiz-list">
                 <li className="not-implemented">Show Details</li>
               </ul>
-              <ul className="modal-activity-list">                <li>
-                <div className="member-container">
-                  <div className="card-member">TP</div>
-                </div>
-                <h3>Taylor Peat</h3>
-                <div className="comment static-comment">
-                  <span>The activities are not functional.</span>
-                </div>
-                <small>
-                  22 minutes ago - <span className="link">Edit</span> -{" "}
-                  <span className="link">Delete</span>
-                </small>
-                <div className="comment">
-                  <label>
-                    <textarea defaultValue="                      The activities have not been implemented yet." required="" rows="1" />
-                    <div>
-                      <a className="light-button card-icon sm-icon"></a>
-                      <a className="light-button smiley-icon sm-icon"></a>
-                      <a className="light-button email-icon sm-icon"></a>
-                    </div>
-                    <div>
-                      <p>You haven't typed anything!</p>
-                      <input
-                        type="submit"
-                        className="button not-implemented"
-                        value="Save"
-                      />
-                      <i className="x-icon icon"></i>
-                    </div>
-                  </label>
-                </div>
-              </li>
-
+              <ul className="modal-activity-list">
+                {comments}
               </ul>
             </li>
           </ul>
