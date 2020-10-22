@@ -6,6 +6,8 @@ import * as actions from "../../actions/CardActions";
 import LabelsForm from "./LabelsForm";
 import Popover from "../shared/Popover";
 import DueDateForm from "./DueDateForm";
+// import CopyCardFormContainer from "./CopyCardFormContainer";
+// import MoveCardForm from "./MoveCardForm";
 import * as commentSelectors from "../../selectors/commentSelectors";
 import * as commentActions from "../../actions/CommentActions";
 
