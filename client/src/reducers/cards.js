@@ -27,6 +27,11 @@ const cards = (state = [], action) => {
       );
       const card = action.payload.card;
       return excludedCards.concat(card);
+    case "UPDATE_CARD_SUCCESS":
+      return state.map(card => {
+        if (card._id === action.payload.card._id) return action.payload.card;
+        else return card;
+      });
     default:
       return state;
   }

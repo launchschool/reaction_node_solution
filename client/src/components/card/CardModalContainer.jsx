@@ -26,6 +26,27 @@ const CardModalContainer = (props) => {
 
   const dispatch = useDispatch();
 
+  const updateCard = useCallback(
+    (id, attrs, callback) => {
+      dispatch(actions.updateCard(id, attrs, callback));
+    },
+    [dispatch]
+  );
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleTitleBlur = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (state.card) {
+        updateCard(state.card._id, { title });
+      }
+    },
+    [state.card, title, updateCard]
+  );
+
   const fetchCard = useCallback((callback) => {
     dispatch(actions.fetchCard(props.match.params.id, callback));
   }, [dispatch, props.match.params.id]);
@@ -59,6 +80,8 @@ const CardModalContainer = (props) => {
           title={title}
           card={state.card}
           list={list}
+          onTitleBlur={handleTitleBlur}
+          onTitleChange={handleTitleChange}
         />
       </>
     );

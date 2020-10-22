@@ -43,5 +43,12 @@ router.get(
   cardControllers.sendCard
 );
 
+router.put(
+  "/cards/:id",
+  cardControllers.findCard,
+  cardControllers.updateCard,
+  cardControllers.sendCard
+);
+
 
 module.exports = router;

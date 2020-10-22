@@ -35,8 +35,10 @@ const CardModal = (props) => {
           <i className="card-icon icon .close-modal"></i>
           <textarea
             name="title"
+            onChange={(e) => props.onTitleChange(e)}
+            onBlur={(e) => props.onTitleBlur(e)}
             className="list-title"
-            defaultValue={props.title}
+            value={props.title}
             style={{ height: "45px" }}
           />
 

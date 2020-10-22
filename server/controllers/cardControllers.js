@@ -21,12 +21,12 @@ const createCard = (req, res, next) => {
 };
 
 const updateCard = (req, res, next) => {
-  const card = req.card;
-  const { attrs } = req.body;
+  const cardId = req.card._id;
+  const { card } = req.body;
   Card.findByIdAndUpdate(
-      card._id,
+      cardId,
       {
-        ...attrs
+        ...card
       },
       { new: true }
   )
@@ -39,14 +39,6 @@ const updateCard = (req, res, next) => {
 const findCard = (req, res, next) => {
   const cardId = req.params.id || req.body.cardId;
   Card.findById(cardId)
-    .populate([
-      {
-        path: "list",
-        populate: {
-          path: "board"
-        }
-      },
-    ])
     .then(card => {
       if (!card) {
         throw new Error("Card doesn't exist");
