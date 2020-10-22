@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { dueClass, formatDueDate } from "../../utils/helpers";
+import CardDescription from "./CardDescription";
 
 const CardModal = (props) => {
   const labels = (card) =>
@@ -85,14 +86,11 @@ const CardModal = (props) => {
                   </li>
                 ) : null}
               </ul>
-              <form className="description">
-                  <p>Description</p>
-                  <span id="description-edit" className="link">
-                    Edit
-                  </span>
-                  <p className="textarea-overlay">Some desc...</p>
-                  )
-                </form>
+              <CardDescription
+                description={props.card.description}
+                onUpdateCard={props.onUpdateCard}
+                card={props.card}
+              />
             </li>
             <li className="comment-section">
             <h2 className="comment-icon icon">Add Comment</h2>

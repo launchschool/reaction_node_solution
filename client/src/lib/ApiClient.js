@@ -74,7 +74,7 @@ const apiClient = {
   },
   updateCard: function(cardId, attrs, callback) {
     return axios
-      .put(routes.updateCardUrl(cardId), { attrs })
+      .put(routes.updateCardUrl(cardId), { card: attrs })
       .then(unwrapData)
       .then(callback)
       .catch(logError);

@@ -82,6 +82,7 @@ const CardModalContainer = (props) => {
           list={list}
           onTitleBlur={handleTitleBlur}
           onTitleChange={handleTitleChange}
+          onUpdateCard = {updateCard}
         />
       </>
     );
