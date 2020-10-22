@@ -115,6 +115,7 @@ const CardModal = (props) => {
                         type="checkbox"
                         className="checkbox"
                         defaultChecked={props.card.completed}
+                        onClick={props.onToggleCompleted}
                       />
                       {formattedDueDate}
                     </div>

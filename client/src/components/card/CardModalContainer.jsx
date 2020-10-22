@@ -81,6 +81,19 @@ const CardModalContainer = (props) => {
     }
   }, []);
 
+  const handleToggleCompleted = useCallback(
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (card && state.card) {
+        updateCard(card._id, {
+          completed: !state.card.completed,
+        });
+      }
+    },
+    [card, state.card, updateCard]
+  );
+
   const createComment = useCallback(
     (cardId, comment, callback) => {
       dispatch(commentActions.createComment(cardId, comment, callback));
@@ -246,6 +259,7 @@ const CardModalContainer = (props) => {
           onUpdateCard={updateCard}
           comments={comments}
           onCreateComment={createComment}
+          onToggleCompleted={handleToggleCompleted}
         />
         <Popover {...state.popover}>{popoverChildren()}</Popover>
       </>
