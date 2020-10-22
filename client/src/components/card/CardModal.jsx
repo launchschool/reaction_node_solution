@@ -63,6 +63,7 @@ const CardModal = (props) => {
                     {labels(props.card)}
                     <div
                       className="member-container"
+                      onClick={(e) => props.onShowPopover(e, "labels")}
                     >
                       <i className="plus-icon sm-icon"></i>
                     </div>
@@ -172,6 +173,7 @@ const CardModal = (props) => {
             </li>
             <li
               className="label-button"
+              onClick={(e) => props.onShowPopover(e, "labels")}
             >
               <i className="label-icon sm-icon"></i>Labels
             </li>
