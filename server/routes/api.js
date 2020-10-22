@@ -3,6 +3,7 @@ const router = express.Router();
 const boardControllers = require("../controllers/boardControllers");
 const listControllers = require("../controllers/listControllers");
 const cardControllers = require("../controllers/cardControllers");
+const commentControllers = require("../controllers/commentControllers");
 const {check} = require("express-validator");
 
 
@@ -49,6 +50,15 @@ router.put(
   cardControllers.updateCard,
   cardControllers.sendCard
 );
+
+router.post(
+  "/comments",
+  cardControllers.findCard,
+  commentControllers.createComment,
+  cardControllers.addCommentToCards,
+  commentControllers.sendComment
+);
+
 
 
 module.exports = router;

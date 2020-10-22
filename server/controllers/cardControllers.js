@@ -39,6 +39,11 @@ const updateCard = (req, res, next) => {
 const findCard = (req, res, next) => {
   const cardId = req.params.id || req.body.cardId;
   Card.findById(cardId)
+    .populate([
+      {
+        path: "comments"
+      },
+    ])
     .then(card => {
       if (!card) {
         throw new Error("Card doesn't exist");
@@ -55,8 +60,19 @@ const sendCard = (req, res) => {
   });
 };
 
+const addCommentToCards = (req, res, next) => {
+  const cardId = req.card.id;
+  const comment = req.comment;
+  Card.findByIdAndUpdate(cardId, {
+    $addToSet: { comments: comment._id }
+  }).then(() => {
+    next();
+  });
+};
+
 exports.createCard = createCard;
 exports.updateCard = updateCard;
 exports.findCard = findCard;
 exports.sendCard = sendCard;
+exports.addCommentToCards = addCommentToCards;
 
