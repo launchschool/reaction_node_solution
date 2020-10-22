@@ -47,6 +47,12 @@ const CardSchema = new Schema(
         ref: "Comment"
       }
     ],
+    actions: [
+      {
+        type: ObjectId,
+        ref: "Action"
+      }
+    ]
   },
   { timestamps: true }
 );

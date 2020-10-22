@@ -14,7 +14,8 @@ const createCard = (req, res, next) => {
       boardId: boardId,
       archived: false,
       position: position || 65535,
-      comments: []
+      comments: [],
+      actions: []
     }).then(card => {
       req.card = card;
       next();
@@ -22,19 +23,37 @@ const createCard = (req, res, next) => {
 };
 
 const updateCard = (req, res, next) => {
+  const action = req.action;
   const cardId = req.card._id;
   const { card } = req.body;
-  Card.findByIdAndUpdate(
+  if (action) {
+    Card.findByIdAndUpdate(
       cardId,
       {
-        ...card
+        ...card,
+        $push: { actions: action._id }
       },
       { new: true }
-  )
-    .then(card => {
+    )
+      .populate(["actions"])
+      .then(card => {
         req.card = card;
         next();
-  });
+      });
+  } else {
+    Card.findByIdAndUpdate(
+      cardId,
+      {
+        card
+      },
+      { new: true }
+    )
+      .populate(["actions"])
+      .then(card => {
+        req.card = card;
+        next();
+      });
+  }
 };
 
 const findCard = (req, res, next) => {
@@ -44,6 +63,9 @@ const findCard = (req, res, next) => {
       {
         path: "comments"
       },
+      {
+        path: "actions"
+      }
     ])
     .then(card => {
       if (!card) {
