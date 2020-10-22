@@ -1,9 +1,11 @@
 import React, { useReducer, useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
 import CardModal from "./CardModal";
 import * as actions from "../../actions/CardActions";
 import LabelsForm from "./LabelsForm";
 import Popover from "../shared/Popover";
+import DueDateForm from "./DueDateForm";
 
 const CardModalContainer = (props) => {
   const reducer = (prevState, updatedProperty) => ({
@@ -114,6 +116,40 @@ const CardModalContainer = (props) => {
     [onClosePopover]
   );
 
+  const handleDueDateSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      const date = e.target.querySelector(".datepicker-select-date input")
+        .value;
+      const time = e.target.querySelector(".datepicker-select-time input")
+        .value;
+      const dateTime = `${date} ${time}`;
+      if (state.card) {
+        updateCard(
+          state.card._id,
+          { dueDate: moment(dateTime, "M/D/YYYY h:mm A").toISOString() },
+          () => {
+            onClosePopover();
+          }
+        );
+      }
+    },
+    [onClosePopover, state.card, updateCard]
+  );
+
+  const handleDueDateRemove = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (state.card) {
+        updateCard(state.card._id, { dueDate: null, completed: false }, () => {
+          onClosePopover();
+        });
+      }
+    },
+    [state.card, updateCard, onClosePopover]
+  );
+
   const handleToggleLabel = useCallback(
     (e, label) => {
       const currentLabels = state.card.labels;
@@ -137,14 +173,14 @@ const CardModalContainer = (props) => {
     if (visible && type) {
       switch (type) {
         case "due-date":
-          // return (
-          //   <DueDateForm
-          //     dueDate={state.card.dueDate}
-          //     onClose={handleClosePopover}
-          //     onSubmit={handleDueDateSubmit}
-          //     onRemove={handleDueDateRemove}
-          //   />
-          // );
+          return (
+            <DueDateForm
+              dueDate={state.card.dueDate}
+              onClose={handleClosePopover}
+              onSubmit={handleDueDateSubmit}
+              onRemove={handleDueDateRemove}
+            />
+          );
         case "labels":
           return (
             <LabelsForm
@@ -170,8 +206,8 @@ const CardModalContainer = (props) => {
     }
   }, [
     handleClosePopover,
-    // handleDueDateSubmit,
-    // handleDueDateRemove,
+    handleDueDateSubmit,
+    handleDueDateRemove,
     handleToggleLabel,
     state.card,
     state.popover.type,

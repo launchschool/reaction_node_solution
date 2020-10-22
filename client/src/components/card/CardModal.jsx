@@ -75,6 +75,7 @@ const CardModal = (props) => {
                     <div
                       id="dueDateDisplay"
                       className={dueDateClass}
+                      onClick={(e) => props.onShowPopover(e, "due-date")}
                     >
                       <input
                         id="dueDateCheckbox"
@@ -182,6 +183,7 @@ const CardModal = (props) => {
             </li>
             <li
               className="date-button"
+              onClick={(e) => props.onShowPopover(e, "due-date")}
             >
               <i className="clock-icon sm-icon"></i>Due Date
             </li>
