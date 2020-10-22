@@ -85,7 +85,14 @@ const apiClient = {
       .then(unwrapData)
       .then(callback)
       .catch(logError);
-  }
+  },
+  deleteCard: function(cardId, callback) {
+    return axios
+      .delete(routes.deleteCardUrl(cardId))
+      .then(unwrapData)
+      .then(callback)
+      .catch(logError);
+  },
 };
 
 export default apiClient;

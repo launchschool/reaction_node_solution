@@ -254,6 +254,22 @@ const CardModalContainer = (props) => {
     }
   }, [card, updateCard]);
 
+  const deleteCard = useCallback(
+    (cardId, callback) => {
+      dispatch(actions.deleteCard(cardId, callback));
+    },
+    [dispatch]
+  );
+
+  const handleDeleteCard = useCallback(
+    (e) => {
+      if (card) {
+        deleteCard(card._id);
+      }
+    },
+    [card, deleteCard]
+  );
+
   if (state.card && list) {
     return (
       <>
@@ -269,6 +285,7 @@ const CardModalContainer = (props) => {
           onCreateComment={createComment}
           onToggleCompleted={handleToggleCompleted}
           onToggleArchive={handleToggleArchive}
+          onDeleteCard={handleDeleteCard}
         />
         <Popover {...state.popover}>{popoverChildren()}</Popover>
       </>

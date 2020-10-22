@@ -197,13 +197,13 @@ const CardModal = (props) => {
                   <i className="send-icon sm-icon"></i>Send to board
                 </li>
                 <Link to={`/boards/${props.card.boardId}`}>
-                  <li className="red-button">
+                  <li className="red-button" onClick={props.onDeleteCard}>
                     <i className="minus-icon sm-icon"></i>Delete
                   </li>
                 </Link>
               </div>
             ) : (
-              <li className="archive-button">
+              <li className="archive-button" onClick={props.onToggleArchive}>
                 <i className="file-icon sm-icon "></i>Archive
               </li>
             )}
