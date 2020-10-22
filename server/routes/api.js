@@ -59,6 +59,13 @@ router.post(
   commentControllers.sendComment
 );
 
+router.delete(
+  "/cards/:id",
+  cardControllers.findCard,
+  cardControllers.removeCard,
+  listControllers.removeCardFromList,
+  cardControllers.sendCard
+);
 
 
 module.exports = router;

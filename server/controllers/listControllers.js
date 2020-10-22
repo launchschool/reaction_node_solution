@@ -60,8 +60,19 @@ const addCardToList = (req, res, next) => {
   }).then(() => next());
 };
 
+const removeCardFromList = (req, res, next) => {
+  const card = req.card;
+  List.updateOne(
+    { cards: { $in: [card._id] } },
+    {
+      $pull: { cards: card._id }
+    }
+  ).then(() => next());
+};
+
 exports.findList = findList;
 exports.updateList = updateList;
 exports.createList = createList;
 exports.sendList = sendList;
 exports.addCardToList = addCardToList;
+exports.removeCardFromList = removeCardFromList;

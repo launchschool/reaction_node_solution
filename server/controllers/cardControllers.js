@@ -14,6 +14,7 @@ const createCard = (req, res, next) => {
       boardId: boardId,
       archived: false,
       position: position,
+      comments: []
     }).then(card => {
       req.card = card;
       next();
@@ -70,9 +71,14 @@ const addCommentToCards = (req, res, next) => {
   });
 };
 
+const removeCard = (req, res, next) => {
+  Card.findByIdAndRemove(req.card._id).then(() => next());
+};
+
 exports.createCard = createCard;
 exports.updateCard = updateCard;
 exports.findCard = findCard;
 exports.sendCard = sendCard;
 exports.addCommentToCards = addCommentToCards;
+exports.removeCard = removeCard;
 
