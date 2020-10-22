@@ -174,7 +174,7 @@ const CardModal = (props) => {
           <h2>Actions</h2>
           <ul>
             <li
-              className="move-button"
+              className="move-button" onClick={(e) => props.onShowPopover(e, "move-card")}
             >
               <i className="forward-icon sm-icon"></i>Move
             </li>

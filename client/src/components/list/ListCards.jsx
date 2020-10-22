@@ -10,6 +10,7 @@ const sortedCards = (cards) => {
 const ListCards = ({ listId }) => {
   const stateCards = useSelector((state) => state.cards);
   const cards = listCards(stateCards, listId);
+  console.log(sortedCards(cards));
   return (
     <div id="cards-container">
       {sortedCards(cards).map((card) => {

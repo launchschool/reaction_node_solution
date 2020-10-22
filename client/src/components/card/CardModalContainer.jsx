@@ -7,7 +7,7 @@ import LabelsForm from "./LabelsForm";
 import Popover from "../shared/Popover";
 import DueDateForm from "./DueDateForm";
 // import CopyCardFormContainer from "./CopyCardFormContainer";
-// import MoveCardForm from "./MoveCardForm";
+import MoveCardForm from "./MoveCardForm";
 import * as commentSelectors from "../../selectors/commentSelectors";
 import * as commentActions from "../../actions/CommentActions";
 
@@ -230,10 +230,10 @@ const CardModalContainer = (props) => {
         //       card={state.card}
         //     />
         //   );
-        // case "move-card":
-        //   return (
-        //     <MoveCardForm onClose={handleClosePopover} card={state.card} />
-        //   );
+        case "move-card":
+          return (
+            <MoveCardForm onClose={handleClosePopover} card={state.card} />
+          );
         default:
           return null;
       }

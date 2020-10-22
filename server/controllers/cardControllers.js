@@ -13,7 +13,7 @@ const createCard = (req, res, next) => {
       listId: listId,
       boardId: boardId,
       archived: false,
-      position: position,
+      position: position || 65535,
       comments: []
     }).then(card => {
       req.card = card;

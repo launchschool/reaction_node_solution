@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useInput from "../../hooks/useInput";
 import * as actions from "../../actions/ListActions";
+import calculatePosition from "../../lib/PositionCalculator";
+import { boardListsSelector } from "../../selectors/listSelectors";
 
 const AddList = (props) => {
   const [showForm, setShowForm] = useState(false);
@@ -11,9 +13,16 @@ const AddList = (props) => {
 
   const boardId = props.boardId;
 
+  const stateLists = useSelector((state) => state.lists);
+  const lists = boardListsSelector(stateLists, boardId);
+
+  const targetPosition = lists.length;
+
+  const position = calculatePosition(lists, targetPosition);
+
   const submitList = useCallback(
-    (title, boardId, callback) => {
-      dispatch(actions.createList(boardId, title, callback));
+    (title, boardId, position, callback) => {
+      dispatch(actions.createList(boardId, title, position, callback));
     },
     [dispatch]
   );
@@ -33,7 +42,7 @@ const AddList = (props) => {
   const handleSubmit = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    submitList(title, boardId, resetState);
+    submitList(title, boardId, position, resetState);
   };
 
   const resetState = () => {
@@ -67,6 +76,6 @@ const AddList = (props) => {
       </div>
     </div>
   );
-}
+};
 
 export default AddList;

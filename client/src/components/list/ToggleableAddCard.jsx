@@ -1,12 +1,21 @@
 import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useInput from "../../hooks/useInput";
 import * as actions from "../../actions/CardActions";
+import calculatePosition from "../../lib/PositionCalculator";
+import { listCards } from "../../selectors/cardSelectors";
 
 const ToggleableAddCard = (props) => {
   const { value: title, bind: bindTitle, reset: resetTitle } = useInput("");
 
   const dispatch = useDispatch();
+
+  const stateCards = useSelector((state) => state.cards);
+  const cards = listCards(stateCards, props.listId);
+
+  const targetPosition = cards.length;
+
+  const position = calculatePosition(cards, targetPosition);
 
   const addCard = useCallback(
     (listId, card, callback) => {
@@ -22,7 +31,7 @@ const ToggleableAddCard = (props) => {
 
   const handleAddCard = (e) => {
     e.preventDefault();
-    addCard(props.listId, { title }, resetTitle);
+    addCard(props.listId, { title, position }, resetTitle);
     props.onAddCardClose();
   };
   const cardClass = ["add-dropdown", "add-bottom"];
