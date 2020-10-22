@@ -246,6 +246,14 @@ const CardModalContainer = (props) => {
     state.popover.visible,
   ]);
 
+  const handleToggleArchive = useCallback(() => {
+    if (card) {
+      updateCard(card._id, {
+        archived: !card.archived,
+      });
+    }
+  }, [card, updateCard]);
+
   if (state.card && list) {
     return (
       <>
@@ -260,6 +268,7 @@ const CardModalContainer = (props) => {
           comments={comments}
           onCreateComment={createComment}
           onToggleCompleted={handleToggleCompleted}
+          onToggleArchive={handleToggleArchive}
         />
         <Popover {...state.popover}>{popoverChildren()}</Popover>
       </>

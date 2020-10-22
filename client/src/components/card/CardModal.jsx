@@ -192,6 +192,7 @@ const CardModal = (props) => {
               <div>
                 <li
                   className="unarchive-button"
+                  onClick={props.onToggleArchive}
                 >
                   <i className="send-icon sm-icon"></i>Send to board
                 </li>
