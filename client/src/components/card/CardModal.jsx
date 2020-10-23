@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import CardDescription from "./CardDescription";
 import moment from "moment";
 import { dueClass, formatDueDate } from "../../utils/helpers";
-import CardDescription from "./CardDescription";
 import NewCommentForm from "./NewCommentForm";
 
 const CardModal = (props) => {
@@ -50,7 +50,6 @@ const CardModal = (props) => {
       )
     );
   }
-
   return (
     <div id="modal-container">
       <div className="screen"></div>
@@ -80,6 +79,7 @@ const CardModal = (props) => {
             in list{" "}
             <a
               className="link"
+              onClick={(e) => props.onShowPopover(e, "move-card")}
             >
               {props.list.title}
             </a>
@@ -139,9 +139,7 @@ const CardModal = (props) => {
               <ul className="horiz-list">
                 <li className="not-implemented">Show Details</li>
               </ul>
-              <ul className="modal-activity-list">
-                {comments}
-              </ul>
+              <ul className="modal-activity-list">{comments}</ul>
             </li>
           </ul>
         </section>
@@ -174,12 +172,14 @@ const CardModal = (props) => {
           <h2>Actions</h2>
           <ul>
             <li
-              className="move-button" onClick={(e) => props.onShowPopover(e, "move-card")}
+              className="move-button"
+              onClick={(e) => props.onShowPopover(e, "move-card")}
             >
               <i className="forward-icon sm-icon"></i>Move
             </li>
             <li
               className="copy-button"
+              onClick={(e) => props.onShowPopover(e, "copy-card")}
             >
               <i className="card-icon sm-icon"></i>Copy
             </li>

@@ -4,6 +4,7 @@ const boardControllers = require("../controllers/boardControllers");
 const listControllers = require("../controllers/listControllers");
 const cardControllers = require("../controllers/cardControllers");
 const commentControllers = require("../controllers/commentControllers");
+const actionControllers = require("../controllers/actionControllers");
 const {check} = require("express-validator");
 
 
@@ -47,6 +48,7 @@ router.get(
 router.put(
   "/cards/:id",
   cardControllers.findCard,
+  actionControllers.createAction,
   cardControllers.updateCard,
   cardControllers.sendCard
 );

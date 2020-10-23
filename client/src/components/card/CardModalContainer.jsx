@@ -39,10 +39,10 @@ const CardModalContainer = (props) => {
 
 
   const stateComments = useSelector((state) => state.comments);
-  // const stateActions = useSelector((state) => state.actions);
+  const stateActions = useSelector((state) => state.actions);
   const comments = commentSelectors.cardCommentsAndActions(
     stateComments,
-    [],
+    stateActions,
     props.match.params.id,
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
@@ -159,6 +159,7 @@ const CardModalContainer = (props) => {
       const time = e.target.querySelector(".datepicker-select-time input")
         .value;
       const dateTime = `${date} ${time}`;
+      console.log(moment(dateTime))
       if (state.card) {
         updateCard(
           state.card._id,

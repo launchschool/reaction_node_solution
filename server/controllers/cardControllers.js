@@ -1,4 +1,5 @@
 const Card = require("../models/card");
+const Action = require("../models/action");
 
 const createCard = (req, res, next) => {
   let { title, position } = req.body.card;
@@ -44,7 +45,7 @@ const updateCard = (req, res, next) => {
     Card.findByIdAndUpdate(
       cardId,
       {
-        card
+        ...card
       },
       { new: true }
     )
