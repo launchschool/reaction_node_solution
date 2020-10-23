@@ -84,7 +84,8 @@ const CopyCardForm = (props) => {
             positionLocation,
           ),
           keep: {
-            comments: cardComments
+            keepComments,
+            cardComments
           }
         },
         () => {

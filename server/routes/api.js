@@ -37,7 +37,6 @@ router.post(
   commentControllers.createComments,
   cardControllers.addCommentsToCard,
   listControllers.addCardToList,
-  cardControllers.updateCard,
   cardControllers.sendCard
 );
 

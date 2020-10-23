@@ -2,19 +2,23 @@ const Comment = require("../models/comment");
 
 exports.createComments = (req, res, next) => {
   let { keep } = req.body.card;
-  if (!keep.comments) {
+  if (!keep || !keep.keepComments) {
+    req.comments = [];
     next();
+  } else {
+      const comments = keep.cardComments.map(comment => {
+        const { _id, cardId, ...commentWithoutIdAndCardId } = comment;
+        commentWithoutIdAndCardId.cardId = req.card._id;
+        return commentWithoutIdAndCardId;
+      })
+
+      return Comment.insertMany(comments).then(comments => {
+        req.comments = comments;
+        next();
+      })
   }
 
-  const comments = keep.comments.map(comment => {
-    const { _id, cardId, ...commentWithoutIdAndCardId } = comment;
-    commentWithoutIdAndCardId.cardId = req.card._id;
-    return commentWithoutIdAndCardId;
-  })
-  return Comment.insertMany(comments).then(comments => {
-    req.comments = comments;
-    next();
-  })
+
 }
 
 exports.createComment = (req, res, next) => {
