@@ -6,7 +6,7 @@ import * as actions from "../../actions/CardActions";
 import LabelsForm from "./LabelsForm";
 import Popover from "../shared/Popover";
 import DueDateForm from "./DueDateForm";
-// import CopyCardFormContainer from "./CopyCardFormContainer";
+import CopyCardForm from "./CopyCardForm";
 import MoveCardForm from "./MoveCardForm";
 import * as commentSelectors from "../../selectors/commentSelectors";
 import * as commentActions from "../../actions/CommentActions";
@@ -224,13 +224,13 @@ const CardModalContainer = (props) => {
               onClickLabel={handleToggleLabel}
             />
           );
-        // case "copy-card":
-        //   return (
-        //     <CopyCardFormContainer
-        //       onClose={handleClosePopover}
-        //       card={state.card}
-        //     />
-        //   );
+        case "copy-card":
+          return (
+            <CopyCardForm
+              onClose={handleClosePopover}
+              card={state.card}
+            />
+          );
         case "move-card":
           return (
             <MoveCardForm onClose={handleClosePopover} card={state.card} />

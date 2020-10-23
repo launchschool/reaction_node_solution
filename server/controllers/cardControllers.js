@@ -2,7 +2,7 @@ const Card = require("../models/card");
 const Action = require("../models/action");
 
 const createCard = (req, res, next) => {
-  let { title, position, copyFrom, keep } = req.body.card;
+  let { title, position, copyFrom } = req.body.card;
   const list = req.list;
   const listId = list._id;
   const boardId = list.boardId;
@@ -10,7 +10,6 @@ const createCard = (req, res, next) => {
   if (copyFrom) {
     Card.findById(copyFrom).then(card => {
       copyCard = card;
-      console.log("copyCard", copyCard);
       Card.create({
         labels: copyCard.labels,
         dueDate: copyCard.dueDate,
@@ -20,10 +19,9 @@ const createCard = (req, res, next) => {
         boardId: boardId,
         archived: false,
         position: position,
-        comments: keep ? copyCard.comments : [],
+        comments: [],
         actions: copyCard.actions
       }).then(card => {
-        console.log(card);
         req.card = card;
         next();
       });
@@ -108,14 +106,28 @@ const sendCard = (req, res) => {
   });
 };
 
-const addCommentToCards = (req, res, next) => {
-  const cardId = req.card.id;
+const addCommentsToCard = (req, res, next) => {
+  const cardId = req.card._id;
+  if (req.comments) {
+    Card.findByIdAndUpdate(cardId, {
+      $addToSet: { comments: { $each : req.comments }  }
+    }).then(() => {
+      next();
+    });
+  } else {
+    next();
+  }
+}
+
+const addCommentToCard = (req, res, next) => {
+  const cardId = req.card._id;
   const comment = req.comment;
   Card.findByIdAndUpdate(cardId, {
     $addToSet: { comments: comment._id }
   }).then(() => {
     next();
   });
+
 };
 
 const removeCard = (req, res, next) => {
@@ -126,6 +138,7 @@ exports.createCard = createCard;
 exports.updateCard = updateCard;
 exports.findCard = findCard;
 exports.sendCard = sendCard;
-exports.addCommentToCards = addCommentToCards;
+exports.addCommentToCard = addCommentToCard;
 exports.removeCard = removeCard;
+exports.addCommentsToCard = addCommentsToCard;
 

@@ -1,5 +1,22 @@
 const Comment = require("../models/comment");
 
+exports.createComments = (req, res, next) => {
+  let { keep } = req.body.card;
+  if (!keep.comments) {
+    next();
+  }
+
+  const comments = keep.comments.map(comment => {
+    const { _id, cardId, ...commentWithoutIdAndCardId } = comment;
+    commentWithoutIdAndCardId.cardId = req.card._id;
+    return commentWithoutIdAndCardId;
+  })
+  return Comment.insertMany(comments).then(comments => {
+    req.comments = comments;
+    next();
+  })
+}
+
 exports.createComment = (req, res, next) => {
   const { text, cardId } = req.body;
   return Comment.create({
