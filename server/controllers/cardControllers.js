@@ -2,11 +2,34 @@ const Card = require("../models/card");
 const Action = require("../models/action");
 
 const createCard = (req, res, next) => {
-  let { title, position } = req.body.card;
+  let { title, position, copyFrom, keep } = req.body.card;
   const list = req.list;
   const listId = list._id;
   const boardId = list.boardId;
-  return Card.create({
+  let copyCard = {};
+  if (copyFrom) {
+    Card.findById(copyFrom).then(card => {
+      copyCard = card;
+      console.log("copyCard", copyCard);
+      Card.create({
+        labels: copyCard.labels,
+        dueDate: copyCard.dueDate,
+        title: copyCard.title,
+        description: copyCard.description,
+        listId: listId,
+        boardId: boardId,
+        archived: false,
+        position: position,
+        comments: keep ? copyCard.comments : [],
+        actions: copyCard.actions
+      }).then(card => {
+        console.log(card);
+        req.card = card;
+        next();
+      });
+    });
+  } else {
+    return Card.create({
       labels: [],
       dueDate: null,
       title: title,
@@ -14,13 +37,14 @@ const createCard = (req, res, next) => {
       listId: listId,
       boardId: boardId,
       archived: false,
-      position: position || 65535,
+      position: position,
       comments: [],
       actions: []
     }).then(card => {
       req.card = card;
       next();
-  });
+    });
+  }
 };
 
 const updateCard = (req, res, next) => {
