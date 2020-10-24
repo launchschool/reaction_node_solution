@@ -53,7 +53,7 @@ router.put(
   listControllers.findListForCard,
   cardControllers.updateCard,
   listControllers.removeUpdatedCardFromList,
-  listControllers.addCardToList,
+  listControllers.addUpdatedCardToList,
   cardControllers.sendCard
 );
 

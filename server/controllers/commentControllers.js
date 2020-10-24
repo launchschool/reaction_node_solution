@@ -2,6 +2,7 @@ const Comment = require("../models/comment");
 
 exports.createComments = (req, res, next) => {
   let { keep } = req.body.card;
+  console.log(keep);
   if (!keep || !keep.keepComments) {
     req.comments = [];
     next();

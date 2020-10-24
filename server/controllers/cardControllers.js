@@ -49,7 +49,6 @@ const updateCard = (req, res, next) => {
   const action = req.action;
   const cardId = req.card._id;
   let { card } = req.body;
-  console.log(card);
   if (req.list) {
     card.boardId = req.list.boardId;
     req.listId = req.list._id;
@@ -105,6 +104,7 @@ const findCard = (req, res, next) => {
 };
 
 const sendCard = (req, res) => {
+  console.log("in send")
   const card = req.card;
   res.json({
     card

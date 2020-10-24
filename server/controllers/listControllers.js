@@ -70,14 +70,7 @@ const sendList = (req, res) => {
 
 const addCardToList = (req, res, next) => {
   const card = req.card;
-  let listId;
-  if (req.listId) {
-    listId = req.listId;
-    List.findByIdAndUpdate(listId, {
-      $addToSet: { cards: card._id }
-  }).then(() => next());
-  }
-  listId = req.list._id;
+  const listId = req.list._id;
   List.findByIdAndUpdate(listId, {
     $addToSet: { cards: card._id }
   }).then(() => next());
@@ -93,17 +86,32 @@ const removeCardFromList = (req, res, next) => {
   ).then(() => next());
 };
 
+const addUpdatedCardToList = (req, res, next) => {
+  const card = req.card;
+  if (req.listId) {
+    const listId = req.listId;
+    List.findByIdAndUpdate(listId, {
+      $addToSet: { cards: card._id }
+    }).then(() => next())
+  }
+  else {
+    next();
+  }
+}
+
 const removeUpdatedCardFromList = (req, res, next) => {
   if (!req.listId) {
     next();
+  } else {
+    const card = req.card;
+    List.updateOne(
+      { cards: { $in: [card._id] } },
+      {
+        $pull: { cards: card._id }
+      }
+    ).then(() => next());
   }
-  const card = req.card;
-  List.updateOne(
-    { cards: { $in: [card._id] } },
-    {
-      $pull: { cards: card._id }
-    }
-  ).then(() => next());
+
 
 }
 
@@ -115,4 +123,5 @@ exports.addCardToList = addCardToList;
 exports.removeCardFromList = removeCardFromList;
 exports.findListForCard = findListForCard;
 exports.removeUpdatedCardFromList = removeUpdatedCardFromList;
+exports.addUpdatedCardToList = addUpdatedCardToList;
 

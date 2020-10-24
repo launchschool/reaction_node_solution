@@ -62,7 +62,7 @@ const CardLocationFormContainer = (props) => {
     if (currentPosition === -1) currentPosition = undefined;
 
     return currentPosition;
-  }, [props.card._id]);
+  }, [props.card._id, propsCards]);
 
   const selectBoard = useCallback(
     (id) => {
@@ -133,7 +133,7 @@ const CardLocationFormContainer = (props) => {
       setSelectedList(list);
       setPositions(positions);
     },
-    [lists, props.card._id, props.mode]
+    [lists, props.card._id, props.mode, stateCards]
   );
 
   useEffect(() => {

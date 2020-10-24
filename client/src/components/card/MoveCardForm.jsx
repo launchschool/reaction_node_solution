@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import _isEqual from "lodash/isEqual";
 import CardLocationFormContainer from "./CardLocationFormContainer";
 import * as cardSelectors from "../../selectors/cardSelectors";
 import calculatePosition from "../../lib/PositionCalculator";
@@ -87,6 +86,8 @@ const MoveCardForm = (props) => {
       listIdLocation,
       positionLocation,
       props,
+      history,
+      stateCards,
     ]
   );
   return (

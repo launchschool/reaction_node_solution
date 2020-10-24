@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import _isEqual from "lodash/isEqual";
 import { useHistory } from "react-router-dom";
 import CardLocationFormContainer from "./CardLocationFormContainer";
 import * as cardSelectors from "../../selectors/cardSelectors";
@@ -27,7 +26,7 @@ const CopyCardForm = (props) => {
 
   useEffect(() => {
     setTitle(props.card.title);
-  }, []);
+  }, [props.card.title]);
 
   const dispatch = useDispatch();
 
@@ -65,8 +64,8 @@ const CopyCardForm = (props) => {
       if (isSubmitDisabled()) {
         return;
       }
-
       e.preventDefault();
+      e.stopPropagation();
 
       const listCards = cardSelectors.listCards(
         state.cards,
@@ -99,7 +98,19 @@ const CopyCardForm = (props) => {
         }
       );
     },
-    [isSubmitDisabled, createCard, title, positionLocation, props]
+    [
+      isSubmitDisabled,
+      createCard,
+      title,
+      positionLocation,
+      props,
+      keepComments,
+      cardComments,
+      boardIdLocation,
+      history,
+      listIdLocation,
+      state.cards,
+    ]
   );
 
   return (
