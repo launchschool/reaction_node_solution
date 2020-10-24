@@ -6,6 +6,7 @@ import * as cardSelectors from "../../selectors/cardSelectors";
 import * as boardActions from "../../actions/BoardActions";
 
 const sortByTitle = (a, b) => {
+  if (!a || !b) return -1;
   const aTitle = a.title.toLowerCase();
   const bTitle = b.title.toLowerCase();
 

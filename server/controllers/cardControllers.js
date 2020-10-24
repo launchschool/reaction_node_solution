@@ -104,7 +104,6 @@ const findCard = (req, res, next) => {
 };
 
 const sendCard = (req, res) => {
-  console.log("in send")
   const card = req.card;
   res.json({
     card
