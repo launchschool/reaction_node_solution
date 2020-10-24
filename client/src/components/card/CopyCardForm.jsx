@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import _isEqual from "lodash/isEqual";
+import { useHistory } from "react-router-dom";
 import CardLocationFormContainer from "./CardLocationFormContainer";
 import * as cardSelectors from "../../selectors/cardSelectors";
 import * as commentSelector from "../../selectors/commentSelectors";
@@ -13,16 +14,20 @@ const CopyCardForm = (props) => {
   const [positionLocation, setPositionLocation] = useState(undefined);
   const [title, setTitle] = useState("");
   const [keepComments, setKeepComments] = useState(true);
+  const history = useHistory();
 
   const state = useSelector((state) => state);
 
-  const cardComments = commentSelector.cardComments(state.comments, props.card._id);
+  const cardComments = commentSelector.cardComments(
+    state.comments,
+    props.card._id
+  );
 
   const commentsCount = cardComments.length;
 
   useEffect(() => {
     setTitle(props.card.title);
-  }, [])
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -33,13 +38,13 @@ const CopyCardForm = (props) => {
     [dispatch]
   );
 
-  const handleKeepCommentsChange = e => {
+  const handleKeepCommentsChange = (e) => {
     setKeepComments(e.target.checked);
-  }
+  };
 
-  const handleTitleChange = e => {
+  const handleTitleChange = (e) => {
     setTitle(e.target.value);
-  }
+  };
 
   const handleLocationChange = useCallback((boardId, listId, position) => {
     setBoardIdLocation(boardId);
@@ -79,42 +84,29 @@ const CopyCardForm = (props) => {
         {
           title,
           copyFrom: props.card._id,
-          position: calculatePosition(
-            listCards,
-            positionLocation,
-          ),
+          position: calculatePosition(listCards, positionLocation),
           keep: {
             keepComments,
-            cardComments
-          }
+            cardComments,
+          },
         },
         () => {
           if (changingBoard) {
-            props.history.push(`/boards/${sourceBoardId}`);
+            history.push(`/boards/${sourceBoardId}`);
           } else {
             props.onClose(new Event("click"));
           }
         }
       );
     },
-    [
-      isSubmitDisabled,
-      createCard,
-      title,
-      positionLocation,
-      props,
-    ]
+    [isSubmitDisabled, createCard, title, positionLocation, props]
   );
 
   return (
     <div>
       <header>
         <span>Copy Card</span>
-        <a
-          href="#"
-          className="icon-sm icon-close"
-          onClick={props.onClose}
-        ></a>
+        <a href="#" className="icon-sm icon-close" onClick={props.onClose}></a>
       </header>
       <div className="content">
         <label>Title</label>
