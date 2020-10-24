@@ -1,5 +1,6 @@
-import React, { useState, useCallback, useRef, memo } from "react";
+import React, { useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import _isEqual from "lodash/isEqual";
 import CardLocationFormContainer from "./CardLocationFormContainer";
 import * as cardSelectors from "../../selectors/cardSelectors";
@@ -10,6 +11,7 @@ const MoveCardForm = (props) => {
   const [boardIdLocation, setBoardIdLocation] = useState(undefined);
   const [listIdLocation, setListIdLocation] = useState(undefined);
   const [positionLocation, setPositionLocation] = useState(undefined);
+  const history = useHistory();
 
   const stateCards = useSelector((state) => state.cards);
 
@@ -71,7 +73,7 @@ const MoveCardForm = (props) => {
         },
         () => {
           if (changingBoard) {
-            props.history.push(`/boards/${sourceBoardId}`);
+            history.push(`/boards/${sourceBoardId}`);
           } else {
             props.onClose(new Event("click"));
           }

@@ -48,7 +48,12 @@ const createCard = (req, res, next) => {
 const updateCard = (req, res, next) => {
   const action = req.action;
   const cardId = req.card._id;
-  const { card } = req.body;
+  let { card } = req.body;
+  console.log(card);
+  if (req.list) {
+    card.boardId = req.list.boardId;
+    req.listId = req.list._id;
+  }
   if (action) {
     Card.findByIdAndUpdate(
       cardId,

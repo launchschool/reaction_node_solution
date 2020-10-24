@@ -1,6 +1,6 @@
 import React from "react";
 
-const CardLocationForm = props => {
+const CardLocationForm = (props) => {
   return (
     <div>
       <div className="button-link setting board">
@@ -8,7 +8,7 @@ const CardLocationForm = props => {
         <span className="value js-board-value">{props.selectedBoardTitle}</span>
         <label>Board</label>
         <select onChange={props.onBoardChange} value={props.selectedBoardId}>
-          {props.boards.map(board => {
+          {props.boards.map((board) => {
             const selected = board._id === props.currentBoardId;
 
             return (
@@ -26,7 +26,7 @@ const CardLocationForm = props => {
           <span className="value js-list-value">{props.selectedListTitle}</span>
           <label>List</label>
           <select onChange={props.onListChange} value={props.selectedListId}>
-            {props.lists.map(list => {
+            {props.lists.map((list) => {
               const selected = list._id === props.currentListId;
 
               return (

@@ -37,7 +37,6 @@ const CardModalContainer = (props) => {
     state.lists.find((list) => list._id === card.listId)
   );
 
-
   const stateComments = useSelector((state) => state.comments);
   const stateActions = useSelector((state) => state.actions);
   const comments = commentSelectors.cardCommentsAndActions(
@@ -70,9 +69,12 @@ const CardModalContainer = (props) => {
     [state.card, title, updateCard]
   );
 
-  const fetchCard = useCallback((callback) => {
-    dispatch(actions.fetchCard(props.match.params.id, callback));
-  }, [dispatch, props.match.params.id]);
+  const fetchCard = useCallback(
+    (callback) => {
+      dispatch(actions.fetchCard(props.match.params.id, callback));
+    },
+    [dispatch, props.match.params.id]
+  );
 
   const updateCardInState = useCallback((newCard) => {
     if (newCard) {
@@ -112,7 +114,6 @@ const CardModalContainer = (props) => {
       updateCardInState(newCard);
     });
   }, [fetchCard, updateCardInState]);
-
 
   useEffect(() => {
     if (card) {
@@ -159,7 +160,6 @@ const CardModalContainer = (props) => {
       const time = e.target.querySelector(".datepicker-select-time input")
         .value;
       const dateTime = `${date} ${time}`;
-      console.log(moment(dateTime))
       if (state.card) {
         updateCard(
           state.card._id,
@@ -226,10 +226,7 @@ const CardModalContainer = (props) => {
           );
         case "copy-card":
           return (
-            <CopyCardForm
-              onClose={handleClosePopover}
-              card={state.card}
-            />
+            <CopyCardForm onClose={handleClosePopover} card={state.card} />
           );
         case "move-card":
           return (

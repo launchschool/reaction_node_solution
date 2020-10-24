@@ -16,6 +16,7 @@ const sortByTitle = (a, b) => {
 
 const CardLocationFormContainer = (props) => {
   const [selectedBoard, setSelectedBoard] = useState(undefined);
+  const [first, setFirst] = useState(true);
 
   const [positions, setPositions] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState(undefined);
@@ -70,6 +71,7 @@ const CardLocationFormContainer = (props) => {
 
         setSelectedBoard(board);
         setLists(newLists);
+        setFirst(true);
       });
     },
     [fetchBoard]
@@ -160,17 +162,22 @@ const CardLocationFormContainer = (props) => {
     if (selectedBoard) {
       if (selectedBoard._id === props.card.boardId) {
         selectList(props.card.listId);
+        setFirst(false);
       } else if (lists.length) {
         selectList(lists[0]._id);
+        setFirst(false);
       } else {
         selectList();
+        setFirst(false);
       }
     }
   }, [props.card.boardId, selectedBoard, lists, selectList, props.card.listId]);
 
   useEffect(() => {
-    selectList(props.card.listId);
-  }, [props.card.listId, selectList]);
+    if (first) {
+      selectList(props.card.listId);
+    }
+  }, [props.card.listId, selectList, first]);
 
   useEffect(() => {
     if (boardsFetched) {

@@ -13,6 +13,22 @@ const findList = (req, res, next) => {
     });
 };
 
+const findListForCard = (req, res, next) => {
+  if (req.body.card.listId) {
+    const listId = req.body.card.listId;
+    List.findById(listId)
+    .then(list => {
+      if (!list) {
+        throw new Error("List doesn't exist");
+      }
+      req.list = list;
+      next();
+    });
+  } else {
+    next();
+  }
+}
+
 const updateList = (req, res, next) => {
   const list = req.list;
   const { title, position } = req.body;
@@ -54,7 +70,14 @@ const sendList = (req, res) => {
 
 const addCardToList = (req, res, next) => {
   const card = req.card;
-  const listId = req.list._id;
+  let listId;
+  if (req.listId) {
+    listId = req.listId;
+    List.findByIdAndUpdate(listId, {
+      $addToSet: { cards: card._id }
+  }).then(() => next());
+  }
+  listId = req.list._id;
   List.findByIdAndUpdate(listId, {
     $addToSet: { cards: card._id }
   }).then(() => next());
@@ -70,9 +93,26 @@ const removeCardFromList = (req, res, next) => {
   ).then(() => next());
 };
 
+const removeUpdatedCardFromList = (req, res, next) => {
+  if (!req.listId) {
+    next();
+  }
+  const card = req.card;
+  List.updateOne(
+    { cards: { $in: [card._id] } },
+    {
+      $pull: { cards: card._id }
+    }
+  ).then(() => next());
+
+}
+
 exports.findList = findList;
 exports.updateList = updateList;
 exports.createList = createList;
 exports.sendList = sendList;
 exports.addCardToList = addCardToList;
 exports.removeCardFromList = removeCardFromList;
+exports.findListForCard = findListForCard;
+exports.removeUpdatedCardFromList = removeUpdatedCardFromList;
+

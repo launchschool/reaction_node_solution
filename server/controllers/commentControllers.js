@@ -17,8 +17,6 @@ exports.createComments = (req, res, next) => {
         next();
       })
   }
-
-
 }
 
 exports.createComment = (req, res, next) => {
@@ -31,6 +29,7 @@ exports.createComment = (req, res, next) => {
     next();
   });
 };
+
 exports.sendComment = (req, res, next) => {
   const comment = req.comment;
   res.json({ comment });

@@ -6,8 +6,9 @@ export default function boards(state = [], action) {
       const newBoard = action.board;
       return state.concat(newBoard);
     case "FETCH_BOARD_SUCCESS":
+      console.log(action.board);
       const excludedBoards = state.filter(
-        board => board._id !== action.board._id
+        (board) => board._id !== action.board._id
       );
       const { lists, ...newBoardWithoutLists } = action.board;
 

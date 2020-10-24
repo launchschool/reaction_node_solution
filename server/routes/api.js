@@ -50,7 +50,10 @@ router.put(
   "/cards/:id",
   cardControllers.findCard,
   actionControllers.createAction,
+  listControllers.findListForCard,
   cardControllers.updateCard,
+  listControllers.removeUpdatedCardFromList,
+  listControllers.addCardToList,
   cardControllers.sendCard
 );
 
