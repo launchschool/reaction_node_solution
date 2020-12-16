@@ -138,6 +138,13 @@ const CardLocationFormContainer = (props) => {
   );
 
   useEffect(() => {
+    if (
+      selectedBoard !== undefined &&
+      selectedList !== undefined &&
+      selectedList !== undefined
+    ) {
+      return;
+    }
     if (selectedBoard && selectedList) {
       if (
         selectedBoard._id === props.card.boardId &&
