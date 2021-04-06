@@ -9,10 +9,10 @@ export default function PositionCalculator(
 
   itemsClone.sort((a, b) => a.position - b.position);
 
-  if (originalPosition === 0 || originalPosition > 0)
-    itemsClone.splice(originalPosition, 1);
+  // if (originalPosition === 0 || originalPosition > 0)
+  //   itemsClone.splice(originalPosition, 1);
 
-  const isLast = targetPosition >= itemsClone.length;
+  const isLast = targetPosition >= itemsClone.length - 1;
 
   if (isOnly || itemsClone.length === 0) {
     return 65535;
@@ -23,8 +23,13 @@ export default function PositionCalculator(
   } else {
     let itemBefore, itemAfter;
 
-    itemBefore = itemsClone[targetPosition - 1];
-    itemAfter = itemsClone[targetPosition];
+    if (originalPosition > targetPosition) {
+      itemBefore = itemsClone[targetPosition - 1];
+      itemAfter = itemsClone[targetPosition];
+    } else {
+      itemBefore = itemsClone[targetPosition];
+      itemAfter = itemsClone[targetPosition + 1];
+    }
 
     return (itemBefore.position + itemAfter.position) / 2;
   }
