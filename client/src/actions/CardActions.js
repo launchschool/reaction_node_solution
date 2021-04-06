@@ -62,6 +62,7 @@ export function updateCard(cardId, attrs, callback) {
     dispatch(updateCardRequest());
     apiClient.updateCard(cardId, attrs, (data) => {
       dispatch(updateCardSuccess(data.card));
+      console.log("datacard", data.card);
       if (callback) callback(data.card);
     });
   };
